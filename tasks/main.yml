@@ -1,7 +1,17 @@
 ---
-- name: Ensure postfix is installed (Debian).
-  apt: pkg=postfix state=installed
-  when: ansible_os_family == 'Debian'
+- include: tasks/oah-install.yml
+  when: oah_command == "install"
 
-- name: Ensure postfix is started and enabled at boot.
-  service: name=postfix state=started enabled=yes
+- include: tasks/oah-update.yml
+  when: oah_command == "update"
+
+- include: tasks/oah-remove.yml
+  when: oah_command == "remove"
+
+- include: tasks/oah-reset.yml
+  when: oah_command == "reset"
+
+- include: tasks/oah-validate.yml
+  when: oah_command == "validate"
+
+#- include: tasks/oah-{{ oah_command }}.yml
